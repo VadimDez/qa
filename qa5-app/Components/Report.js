@@ -12,40 +12,7 @@ export class Report extends React.Component {
 
   constructor() {
     super();
-    this.state = {
-      users: [
-        {
-          title: 'Task 1',
-          avatar: require('./resources/002.jpg'),
-          checked: true,
-          checkedBy: 'Bogomolov'
-        },
-        {
-          title: 'Task 2',
-          avatar: require('./resources/002.jpg'),
-          checked: false,
-          checkedBy: null
-        },
-        {
-          title: 'Task 3',
-          avatar: require('./resources/002.jpg'),
-          checked: false,
-          checkedBy: null
-        },
-        {
-          title: 'Task 4',
-          avatar: require('./resources/002.jpg'),
-          checked: false,
-          checkedBy: null
-        },
-        {
-          title: 'Task 5',
-          avatar: require('./resources/002.jpg'),
-          checked: false,
-          checkedBy: null
-        },
-      ]
-    };
+    this.state = {};
   }
 
   render() {

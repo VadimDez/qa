@@ -30,7 +30,7 @@ export default class App extends React.Component {
           title: 'Task 1',
           avatar: require('./resources/002.jpg'),
           checked: true,
-          checkedBy: 'Bogomolov'
+          checkedBy: 'Vlad Bogomolov'
         },
         {
           title: 'Task 2',
@@ -59,11 +59,11 @@ export default class App extends React.Component {
       ]
     };
   }
-  
+
   onPress() {
 
   }
-  
+
   render() {
     return (
       <View>
@@ -81,12 +81,12 @@ export default class App extends React.Component {
                   checked = (
                     <ListItem
                       leftAvatar={{
-                        title: 'ok',
+                        title: 'VB',
                         source: { uri: 'https://media.licdn.com/dms/image/C4D03AQEVAncY0Hsrkg/profile-displayphoto-shrink_200_200/0?e=1554336000&v=beta&t=PwcJNdIj3f26CN1YNlsLFdg9tP0_kxchGu2A-Q_juR8' },
                         showEditButton: false,
                       }}
                       title={ u.checkedBy }
-                      subtitle={'Preisdent'}
+                      subtitle={'Operator'.toLowerCase()}
                     />
                   )
                 }
@@ -101,8 +101,6 @@ export default class App extends React.Component {
                     </Text>
                     <Button
                       onPress={ () => {
-                        console.log(u.checked);
-
                         if ( !u.checked ) {
                           u.checkedBy = 'Bogomolov';
                         }else{
@@ -110,9 +108,6 @@ export default class App extends React.Component {
                         }
                         u.checked = !u.checked;
                         this.setState([...this.state.users.slice(0, i), u, ...this.state.users.slice(i+1)]);
-
-
-
                       } }
                       // icon={<Icon name='code' color='#ffffff' />}
                       backgroundColor='#03A9F4'
@@ -157,16 +152,16 @@ export default class App extends React.Component {
   // this.renderer.setPixelRatio(pixelRatio);
   // this.renderer.setSize(width, height);
   console.log('========================================');
-  
+
   console.log(width, pixelRatio);
-  
+
 
   // Initialize scene…
   this.scene = new THREE.Scene();
   this.scene.background = new ThreeAR.BackgroundTexture(this.renderer);
   // Initialize camera…
   this.camera = new ThreeAR.Camera(width, height, 0.01, 1000);
-  
+
   // Initialize lighting…
   var ambientLight = new THREE.AmbientLight(0xaaaaaa);
   this.scene.add(ambientLight);

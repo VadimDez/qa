@@ -48,11 +48,15 @@ export class Conetnt extends React.Component {
     };
   }
 
+  toggleCamera = () => {
+    this.props.onToggleCamera();
+  }
+
   render() {
     return (
       <View>
       <Header
-        leftComponent={{ icon: 'menu', color: '#fff' }}
+        leftComponent={{ icon: 'menu', color: '#fff', onPress: this.toggleCamera, }}
         centerComponent={{ text: 'QA5', style: { color: '#fff', fontWeight: 'bold', fontSize: 22 } }}
         rightComponent={{ icon: 'home', color: '#fff' }}
         />

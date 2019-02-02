@@ -18,6 +18,11 @@ import { Conetnt } from './Content';
 export default class App extends React.Component {
   magneticObject = new ThreeAR.MagneticObject();
 
+  constructor() {
+    super();
+    this.state = { isCameraShown: false };
+  }
+ 
   componentDidMount() {
     // Turn off extra warnings
     THREE.suppressExpoWarnings(true)
@@ -27,23 +32,32 @@ export default class App extends React.Component {
   onPress() {
 
   }
+
+  onToggleCamera = () => {
+    this.setState({ isCameraShown: !this.state.isCameraShown });
+  }
   
   render() {
-    return <Conetnt/>
+    
+    if (!this.state.isCameraShown) {
+      return <Conetnt onToggleCamera={ this.onToggleCamera } />
+    }
+
+    return this.renderfn();
   }
 
   renderfn() {
     return (
       <View style={{flex:1}}>
       <ExpoGraphics.View
-      style={{ flex: 1 }}
-      onContextCreate={this.onContextCreate}
-      onRender={this.onRender}
-      onResize={this.onResize}
-      isArEnabled
-      isArRunningStateEnabled
-      isArCameraStateEnabled
-    />
+        style={{ flex: 1 }}
+        onContextCreate={this.onContextCreate}
+        onRender={this.onRender}
+        onResize={this.onResize}
+        isArEnabled
+        isArRunningStateEnabled
+        isArCameraStateEnabled
+      />
       </View>
     )
  }
@@ -57,9 +71,6 @@ export default class App extends React.Component {
   });
   // this.renderer.setPixelRatio(pixelRatio);
   // this.renderer.setSize(width, height);
-  console.log('========================================');
-  
-  console.log(width, pixelRatio);
   
 
   // Initialize scene…

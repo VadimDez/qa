@@ -37,15 +37,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  checkContainer: {
-    flex: 1,
-    padding: 40,
-    backgroundColor: 'white',
-    width: '100%'
-  },
-  title: {},
-  instructions: {
-    flex: 1,
-    width: '100%'
-  }
 });

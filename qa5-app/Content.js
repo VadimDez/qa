@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import { Card, ListItem, Button, Icon, Header, Avatar } from 'react-native-elements';
 
+const imgUrl = 'https://media.licdn.com/dms/image/C4D03AQEVAncY0Hsrkg/profile-displayphoto-shrink_200_200/0?e=1554336000&v=beta&t=PwcJNdIj3f26CN1YNlsLFdg9tP0_kxchGu2A-Q_juR8';
+
 export class Conetnt extends React.Component {
 
   constructor() {
@@ -52,7 +54,55 @@ export class Conetnt extends React.Component {
     this.props.onToggleCamera();
   }
 
+  onPress = (u, i) => {
+    return () => {
+      u.checkedBy = !u.checked ? 'Bogomolov' : null;
+      u.checked = !u.checked;
+      this.setState([...this.state.users.slice(0, i), u, ...this.state.users.slice(i+1)]);
+    }
+  }
+
   render() {
+    const instructions = this.state.users.map((u, i) => {
+      let checked = null;
+      if (u.checkedBy) {
+        checked = (
+          <ListItem
+            leftAvatar={{
+              title: 'ok',
+              source: { uri: imgUrl },
+              showEditButton: false,
+            }}
+            title={ u.checkedBy }
+            subtitle={'Worker'}
+          />
+        )
+      }
+
+      const title = u.checked ? 'UNCHECK' : 'CHECK NOW';
+
+      return (
+        <Card
+          containerStyle={ styles.btnStyle }
+          key={ i }
+          title={ u.title }
+          image={ u.avatar }
+        >
+          <Text style={{marginBottom: 10}}>
+            Instructions here...
+          </Text>
+          <Button
+            onPress={ this.onPress(u,i) }
+            // icon={<Icon name='code' color='#ffffff' />}
+            backgroundColor='#03A9F4'
+            buttonStyle={ styles.btnStyle }
+            title={ title }
+          />
+          {checked}
+        </Card>
+      )
+    });
+
     return (
       <View>
       <Header
@@ -62,57 +112,7 @@ export class Conetnt extends React.Component {
         />
         <ScrollView>
           <View style={ styles.checkContainer }>
-            {
-              this.state.users.map((u, i) => {
-                let checked = null;
-                if (u.checkedBy) {
-                  checked = (
-                    <ListItem
-                      leftAvatar={{
-                        title: 'ok',
-                        source: { uri: 'https://media.licdn.com/dms/image/C4D03AQEVAncY0Hsrkg/profile-displayphoto-shrink_200_200/0?e=1554336000&v=beta&t=PwcJNdIj3f26CN1YNlsLFdg9tP0_kxchGu2A-Q_juR8' },
-                        showEditButton: false,
-                      }}
-                      title={ u.checkedBy }
-                      subtitle={'Preisdent'}
-                    />
-                  )
-                }
-                return (
-                  <Card
-                    containerStyle={{borderRadius: 8}}
-                    key={i.toString()}
-                    title={ u.title }
-                    image={u.avatar}>
-                    <Text style={{marginBottom: 10}}>
-                      The idea with React Native Elements is more about component structure than actual design.
-                    </Text>
-                    <Button
-                      onPress={ () => {
-                        console.log(u.checked);
-
-                        if ( !u.checked ) {
-                          u.checkedBy = 'Bogomolov';
-                        }else{
-                          u.checkedBy = null;
-                        }
-                        u.checked = !u.checked;
-                        this.setState([...this.state.users.slice(0, i), u, ...this.state.users.slice(i+1)]);
-
-
-
-                      } }
-                      // icon={<Icon name='code' color='#ffffff' />}
-                      backgroundColor='#03A9F4'
-                      buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                      title={ (u.checked)?'UNCHECK':'CHECK NOW' } />
-
-                    {checked}
-
-                  </Card>
-                )
-              })
-            }
+            { instructions }
           </View>
         </ScrollView>
       </View>
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   },
   checkContainer: {
     flex: 1,
-    padding: 40,
+    padding: 10,
     backgroundColor: 'white',
     width: '100%'
   },
@@ -138,5 +138,7 @@ const styles = StyleSheet.create({
   instructions: {
     flex: 1,
     width: '100%'
-  }
+  },
+  btnStyle: {borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0},
+  card: {borderRadius: 8}
 });

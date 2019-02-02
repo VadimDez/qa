@@ -14,44 +14,41 @@ export class Conetnt extends React.Component {
 
   constructor() {
     super();
+
     this.state = {
       users: [
         {
           title: 'Task 1',
-          avatar: require('./resources/002.jpg'),
+          avatar: require('../resources/002.jpg'),
           checked: true,
           checkedBy: 'Bogomolov'
         },
         {
           title: 'Task 2',
-          avatar: require('./resources/002.jpg'),
+          avatar: require('../resources/002.jpg'),
           checked: false,
           checkedBy: null
         },
         {
           title: 'Task 3',
-          avatar: require('./resources/002.jpg'),
+          avatar: require('../resources/002.jpg'),
           checked: false,
           checkedBy: null
         },
         {
           title: 'Task 4',
-          avatar: require('./resources/002.jpg'),
+          avatar: require('../resources/002.jpg'),
           checked: false,
           checkedBy: null
         },
         {
           title: 'Task 5',
-          avatar: require('./resources/002.jpg'),
+          avatar: require('../resources/002.jpg'),
           checked: false,
           checkedBy: null
         },
       ]
     };
-  }
-
-  toggleCamera = () => {
-    this.props.onToggleCamera();
   }
 
   onPress = (u, i) => {
@@ -80,10 +77,14 @@ export class Conetnt extends React.Component {
       }
 
       const title = u.checked ? 'UNCHECK' : 'CHECK NOW';
+      let cardStyles = styles.card;
 
+      if (u.checked) {
+        cardStyles = { ...cardStyles, opacity: .5};
+      }
       return (
         <Card
-          containerStyle={ styles.btnStyle }
+          containerStyle={ cardStyles }
           key={ i }
           title={ u.title }
           image={ u.avatar }
@@ -106,9 +107,7 @@ export class Conetnt extends React.Component {
     return (
       <View>
       <Header
-        leftComponent={{ icon: 'menu', color: '#fff', onPress: this.toggleCamera, }}
         centerComponent={{ text: 'QA5', style: { color: '#fff', fontWeight: 'bold', fontSize: 22 } }}
-        rightComponent={{ icon: 'home', color: '#fff' }}
         />
         <ScrollView>
           <View style={ styles.checkContainer }>
@@ -120,8 +119,7 @@ export class Conetnt extends React.Component {
   }
 }
 
-
-const styles = StyleSheet.create({
+const baseStyles = {
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -140,5 +138,7 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   btnStyle: {borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0},
-  card: {borderRadius: 8}
-});
+  card: { borderRadius: 8, position: 'relative' },
+  img: {  }
+};
+const styles = StyleSheet.create(baseStyles);

@@ -20,6 +20,7 @@ export class Camera extends React.Component {
     THREE.suppressExpoWarnings(true)
     ThreeAR.suppressWarnings()
   }
+  
   onPress() {
 
   }
@@ -77,7 +78,17 @@ export class Camera extends React.Component {
   
     this.scene.add(this.magneticObject);
   
-    this.createText();
+    var geometry = new THREE.BoxGeometry( .25, .25, .25 );
+    var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+    var cube = new THREE.Mesh( geometry, material );
+    this.scene.add( cube );
+
+    // console.log(cube.position.get());
+    
+    cube.position.set(0, 0, 0);
+    cube.position.setX(1);
+
+    // this.createText();
    }
   
     onResize = ({ x, y, scale, width, height }) => {
@@ -98,10 +109,11 @@ export class Camera extends React.Component {
       this.textMesh = new TextMesh();
       this.textMesh.rotation.y = Math.PI;
       this.scene.add(this.textMesh);
+
       this.textMesh.material = new THREE.MeshPhongMaterial({ color: 0x056ecf });
       this.textMesh.update({
         text: 'Welcome',
-        font: require('./three_fonts/neue_haas_unica_pro_medium.json'), // This accepts json, THREE.Font, or a uri to remote THREE.Font json
+        font: require('../three_fonts/neue_haas_unica_pro_medium.json'), // This accepts json, THREE.Font, or a uri to remote THREE.Font json
         size: 10, //Size of the text. Default is 100.
         height: 5, //Thickness to extrude text. Default is 50.
         curveSegments: 12, // — Integer. Number of points on the curves. Default is 12.

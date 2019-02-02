@@ -3,9 +3,11 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
+  // Button,
   Image
 } from 'react-native';
+import { Card, ListItem, Button, Icon } from 'react-native-elements';
+
 
 export default class App extends React.Component {
   onPress() {
@@ -15,21 +17,18 @@ export default class App extends React.Component {
     return (
       <View style={ styles.container }>
         <View style={ styles.checkContainer }>
-          <Text>Title</Text>
-          <Image
-           style={ styles.instructions }
-           source={require('./resources/002.jpg')}
-          />
-          <View>
-            <Button onPress={ this.onPress }
-                    title="Next"
-                    color="#000"
-            />
-            <Button onPress={ this.onPress }
-                    title="Next"
-                    color="#000"
-            />
-          </View>
+          <Card
+            title='HELLO WORLD'
+            image={require('./resources/002.jpg')}>
+            <Text style={{marginBottom: 10}}>
+              The idea with React Native Elements is more about component structure than actual design.
+            </Text>
+            <Button
+              icon={<Icon name='code' color='#ffffff' />}
+              backgroundColor='#03A9F4'
+              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+              title='VIEW NOW' />
+          </Card>
         </View>
       </View>
     );
@@ -55,3 +54,13 @@ const styles = StyleSheet.create({
     width: '100%'
   }
 });
+const users = [
+  {
+    name: 'brynn',
+    avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
+  },
+  {
+    name: 'brynn1',
+    avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
+  },
+]

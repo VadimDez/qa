@@ -4,33 +4,88 @@ import {
   Text,
   View,
   // Button,
-  Image
+  Image,
+  ScrollView
 } from 'react-native';
 import { Card, ListItem, Button, Icon } from 'react-native-elements';
 
 
 export default class App extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      users: [
+        {
+          title: 'Task 1',
+          avatar: require('./resources/002.jpg'),
+          checked: true,
+          checkedBy: 'Bogomolov'
+        },
+        {
+          title: 'Task 2',
+          avatar: require('./resources/002.jpg'),
+          checked: false,
+          checkedBy: null
+        },
+        {
+          title: 'Task 3',
+          avatar: require('./resources/002.jpg'),
+          checked: false,
+          checkedBy: null
+        },
+        {
+          title: 'Task 4',
+          avatar: require('./resources/002.jpg'),
+          checked: false,
+          checkedBy: null
+        },
+        {
+          title: 'Task 5',
+          avatar: require('./resources/002.jpg'),
+          checked: false,
+          checkedBy: null
+        },
+      ]
+    };
+  }
+
   onPress() {
 
   }
   render() {
     return (
-      <View style={ styles.container }>
+      <ScrollView>
         <View style={ styles.checkContainer }>
-          <Card
-            title='HELLO WORLD'
-            image={require('./resources/002.jpg')}>
-            <Text style={{marginBottom: 10}}>
-              The idea with React Native Elements is more about component structure than actual design.
-            </Text>
-            <Button
-              icon={<Icon name='code' color='#ffffff' />}
-              backgroundColor='#03A9F4'
-              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-              title='VIEW NOW' />
-          </Card>
+          {
+            this.state.users.map((u, i) => {
+              return (
+                <Card
+                  containerStyle={{borderRadius: 8}}
+                  key={i.toString()}
+                  title={ u.title }
+                  image={u.avatar}>
+                  <Text style={{marginBottom: 10}}>
+                    The idea with React Native Elements is more about component structure than actual design.
+                  </Text>
+                  <Button
+                    onPress={ () => {
+                      console.log(u.checked);
+                      u.checked = !u.checked;
+                      u.checkedBy = 'Bogomolov';
+                      this.setState([...this.state.users.slice(0, i), u, ...this.state.users.slice(i+1)]);
+                    } }
+                    disabled={ u.checked }
+                    icon={<Icon name='code' color='#ffffff' />}
+                    backgroundColor='#03A9F4'
+                    buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                    title='CHECK NOW' />
+                </Card>
+              )
+            })
+          }
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -45,7 +100,7 @@ const styles = StyleSheet.create({
   checkContainer: {
     flex: 1,
     padding: 40,
-    backgroundColor: 'red',
+    backgroundColor: 'white',
     width: '100%'
   },
   title: {},
@@ -54,13 +109,3 @@ const styles = StyleSheet.create({
     width: '100%'
   }
 });
-const users = [
-  {
-    name: 'brynn',
-    avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  },
-  {
-    name: 'brynn1',
-    avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  },
-]

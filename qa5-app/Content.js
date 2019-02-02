@@ -50,10 +50,6 @@ export class Conetnt extends React.Component {
     };
   }
 
-  toggleCamera = () => {
-    this.props.onToggleCamera();
-  }
-
   onPress = (u, i) => {
     return () => {
       u.checkedBy = !u.checked ? 'Bogomolov' : null;
@@ -110,9 +106,7 @@ export class Conetnt extends React.Component {
     return (
       <View>
       <Header
-        leftComponent={{ icon: 'menu', color: '#fff', onPress: this.toggleCamera, }}
         centerComponent={{ text: 'QA5', style: { color: '#fff', fontWeight: 'bold', fontSize: 22 } }}
-        rightComponent={{ icon: 'home', color: '#fff' }}
         />
         <ScrollView>
           <View style={ styles.checkContainer }>

@@ -80,10 +80,14 @@ export class Conetnt extends React.Component {
       }
 
       const title = u.checked ? 'UNCHECK' : 'CHECK NOW';
+      let cardStyles = styles.card;
 
+      if (u.checked) {
+        cardStyles = { ...cardStyles, opacity: .5};
+      }
       return (
         <Card
-          containerStyle={ styles.btnStyle }
+          containerStyle={ cardStyles }
           key={ i }
           title={ u.title }
           image={ u.avatar }
@@ -120,8 +124,7 @@ export class Conetnt extends React.Component {
   }
 }
 
-
-const styles = StyleSheet.create({
+const baseStyles = {
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -140,5 +143,7 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   btnStyle: {borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0},
-  card: {borderRadius: 8}
-});
+  card: { borderRadius: 8, position: 'relative' },
+  img: {  }
+};
+const styles = StyleSheet.create(baseStyles);

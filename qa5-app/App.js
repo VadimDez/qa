@@ -64,6 +64,20 @@ export default class App extends React.Component {
           <View style={ styles.checkContainer }>
             {
               this.state.users.map((u, i) => {
+                let checked = null;
+                if (u.checkedBy) {
+                  checked = (
+                    <ListItem
+                      leftAvatar={{
+                        title: 'ok',
+                        source: { uri: 'https://media.licdn.com/dms/image/C4D03AQEVAncY0Hsrkg/profile-displayphoto-shrink_200_200/0?e=1554336000&v=beta&t=PwcJNdIj3f26CN1YNlsLFdg9tP0_kxchGu2A-Q_juR8' },
+                        showEditButton: false,
+                      }}
+                      title={ u.checkedBy }
+                      subtitle={'Preisdent'}
+                    />
+                  )
+                }
                 return (
                   <Card
                     containerStyle={{borderRadius: 8}}
@@ -76,26 +90,24 @@ export default class App extends React.Component {
                     <Button
                       onPress={ () => {
                         console.log(u.checked);
+
+                        if ( !u.checked ) {
+                          u.checkedBy = 'Bogomolov';
+                        }else{
+                          u.checkedBy = null;
+                        }
                         u.checked = !u.checked;
-                        u.checkedBy = 'Bogomolov';
                         this.setState([...this.state.users.slice(0, i), u, ...this.state.users.slice(i+1)]);
+
+
+
                       } }
-                      disabled={ u.checked }
-                      icon={<Icon name='code' color='#ffffff' />}
+                      // icon={<Icon name='code' color='#ffffff' />}
                       backgroundColor='#03A9F4'
                       buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                      title='CHECK NOW' />
+                      title={ (u.checked)?'UNCHECK':'CHECK NOW' } />
 
-                    <ListItem
-                      leftAvatar={{
-                        title: 'ok',
-                        source: { uri: 'https://media.licdn.com/dms/image/C4D03AQEVAncY0Hsrkg/profile-displayphoto-shrink_200_200/0?e=1554336000&v=beta&t=PwcJNdIj3f26CN1YNlsLFdg9tP0_kxchGu2A-Q_juR8' },
-                        showEditButton: false,
-                      }}
-                      title={ 'Vladislav Bogomolov'}
-                      subtitle={'Preisdent'}
-                      chevron
-                    />
+                    {checked}
 
                   </Card>
                 )

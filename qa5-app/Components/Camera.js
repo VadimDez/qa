@@ -113,7 +113,7 @@ export class Camera extends React.Component {
       this.textMesh.material = new THREE.MeshPhongMaterial({ color: 0x056ecf });
       this.textMesh.update({
         text: 'Welcome',
-        font: require('./three_fonts/neue_haas_unica_pro_medium.json'), // This accepts json, THREE.Font, or a uri to remote THREE.Font json
+        font: require('../three_fonts/neue_haas_unica_pro_medium.json'), // This accepts json, THREE.Font, or a uri to remote THREE.Font json
         size: 10, //Size of the text. Default is 100.
         height: 5, //Thickness to extrude text. Default is 50.
         curveSegments: 12, // — Integer. Number of points on the curves. Default is 12.

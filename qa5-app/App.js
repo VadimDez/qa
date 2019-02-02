@@ -4,8 +4,8 @@ import {
   TabBarIOS
 } from 'react-native';
 
-import { Conetnt } from './Content';
-import { Camera } from './Camera';
+import { Conetnt } from './Components/Content';
+import { Camera } from './Components/Camera';
 
 
 export default class App extends React.Component {

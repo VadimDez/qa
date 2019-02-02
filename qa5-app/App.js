@@ -98,13 +98,17 @@ export default class App extends React.Component {
                       buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
                       title='CHECK NOW' />
 
-                    <Avatar
-                      rounded
-                      icon={{name: 'users' }}
-                      onPress={() => console.log("Works!")}
-                      activeOpacity={0.7}
-                      containerStyle={{flex: 2, marginLeft: 20, marginTop: 115}}
+                    <ListItem
+                      leftAvatar={{
+                        title: 'ok',
+                        source: { uri: 'https://media.licdn.com/dms/image/C4D03AQEVAncY0Hsrkg/profile-displayphoto-shrink_200_200/0?e=1554336000&v=beta&t=PwcJNdIj3f26CN1YNlsLFdg9tP0_kxchGu2A-Q_juR8' },
+                        showEditButton: false,
+                      }}
+                      title={ 'Vladislav Bogomolov'}
+                      subtitle={'Preisdent'}
+                      chevron
                     />
+
                   </Card>
                 )
               })

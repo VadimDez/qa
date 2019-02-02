@@ -3,20 +3,16 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   Image,
+  ScrollView
 } from 'react-native';
-// import { AR, Asset, PlaneDetectionTypes } from 'expo';
-import Expo, { setPixelRatio } from 'expo';
-// Let's alias ExpoTHREE.AR as ThreeAR so it doesn't collide with Expo.AR.
-import ExpoTHREE, { AR as ThreeAR, THREE } from 'expo-three';
-// Let's also import `expo-graphics`
-// expo-graphics manages the setup/teardown of the gl context/ar session, creates a frame-loop, and observes size/orientation changes.
-// it also provides debug information with `isArCameraStateEnabled`
-
+import { Card, ListItem, Button, Icon } from 'react-native-elements';
 import ExpoGraphics from 'expo-graphics';
+import ExpoTHREE, { AR as ThreeAR, THREE } from 'expo-three';
+import Expo, { setPixelRatio } from 'expo';
 
 import TextMesh from './TextMesh';
+
 
 export default class App extends React.Component {
   magneticObject = new ThreeAR.MagneticObject();
@@ -26,31 +22,81 @@ export default class App extends React.Component {
     THREE.suppressExpoWarnings(true)
     ThreeAR.suppressWarnings()
   }
+  constructor() {
+    super();
+    this.state = {
+      users: [
+        {
+          title: 'Task 1',
+          avatar: require('./resources/002.jpg'),
+          checked: true,
+          checkedBy: 'Bogomolov'
+        },
+        {
+          title: 'Task 2',
+          avatar: require('./resources/002.jpg'),
+          checked: false,
+          checkedBy: null
+        },
+        {
+          title: 'Task 3',
+          avatar: require('./resources/002.jpg'),
+          checked: false,
+          checkedBy: null
+        },
+        {
+          title: 'Task 4',
+          avatar: require('./resources/002.jpg'),
+          checked: false,
+          checkedBy: null
+        },
+        {
+          title: 'Task 5',
+          avatar: require('./resources/002.jpg'),
+          checked: false,
+          checkedBy: null
+        },
+      ]
+    };
+  }
+  
   onPress() {
 
   }
   
   render() {
     return (
-      <View style={ styles.container }>
+      <ScrollView>
         <View style={ styles.checkContainer }>
-          <Text>Title</Text>
-          <Image
-           style={ styles.instructions }
-           source={require('./resources/002.jpg')}
-          />
-          <View>
-            <Button onPress={ this.onPress }
-                    title="Next"
-                    color="#000"
-            />
-            <Button onPress={ this.onPress }
-                    title="Next"
-                    color="#000"
-            />
-          </View>
+          {
+            this.state.users.map((u, i) => {
+              return (
+                <Card
+                  containerStyle={{borderRadius: 8}}
+                  key={i.toString()}
+                  title={ u.title }
+                  image={u.avatar}>
+                  <Text style={{marginBottom: 10}}>
+                    The idea with React Native Elements is more about component structure than actual design.
+                  </Text>
+                  <Button
+                    onPress={ () => {
+                      console.log(u.checked);
+                      u.checked = !u.checked;
+                      u.checkedBy = 'Bogomolov';
+                      this.setState([...this.state.users.slice(0, i), u, ...this.state.users.slice(i+1)]);
+                    } }
+                    disabled={ u.checked }
+                    icon={<Icon name='code' color='#ffffff' />}
+                    backgroundColor='#03A9F4'
+                    buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                    title='CHECK NOW' />
+                </Card>
+              )
+            })
+          }
         </View>
-      </View>
+      </ScrollView>
     );
   }
 
@@ -158,7 +204,7 @@ const styles = StyleSheet.create({
   checkContainer: {
     flex: 1,
     padding: 40,
-    backgroundColor: 'red',
+    backgroundColor: 'white',
     width: '100%'
   },
   title: {},

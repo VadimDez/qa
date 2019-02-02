@@ -28,10 +28,10 @@ export default class App extends React.Component {
     THREE.suppressExpoWarnings(true)
     ThreeAR.suppressWarnings()
   }
-  
   onPress() {
 
   }
+
 
   onToggleCamera = () => {
     this.setState({ isCameraShown: !this.state.isCameraShown });
@@ -71,14 +71,13 @@ export default class App extends React.Component {
   });
   // this.renderer.setPixelRatio(pixelRatio);
   // this.renderer.setSize(width, height);
-  
 
   // Initialize scene…
   this.scene = new THREE.Scene();
   this.scene.background = new ThreeAR.BackgroundTexture(this.renderer);
   // Initialize camera…
   this.camera = new ThreeAR.Camera(width, height, 0.01, 1000);
-  
+
   // Initialize lighting…
   var ambientLight = new THREE.AmbientLight(0xaaaaaa);
   this.scene.add(ambientLight);

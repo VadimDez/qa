@@ -19,34 +19,32 @@ export class Conetnt extends React.Component {
       users: [
         {
           title: 'Task 1',
-          avatar: require('../resources/002.jpg'),
+          avatar: require('../resources/anchor_check.jpg'),
           checked: true,
-          checkedBy: 'Bogomolov'
+          checkedBy: 'Bogomolov',
+          text: 'Check anchor'
         },
         {
           title: 'Task 2',
-          avatar: require('../resources/002.jpg'),
+          avatar: require('../resources/connector_check.jpg'),
           checked: false,
-          checkedBy: null
+          checkedBy: null,
+          text: 'Check connector'
         },
         {
           title: 'Task 3',
-          avatar: require('../resources/002.jpg'),
+          avatar: require('../resources/coupler_check.jpg'),
           checked: false,
-          checkedBy: null
+          checkedBy: null,
+          text: 'Check coupler'
         },
         {
           title: 'Task 4',
-          avatar: require('../resources/002.jpg'),
+          avatar: require('../resources/support_structure_check.jpg'),
           checked: false,
-          checkedBy: null
-        },
-        {
-          title: 'Task 5',
-          avatar: require('../resources/002.jpg'),
-          checked: false,
-          checkedBy: null
-        },
+          checkedBy: null,
+          text: 'Check support structure'
+        }
       ]
     };
   }
@@ -89,8 +87,8 @@ export class Conetnt extends React.Component {
           title={ u.title }
           image={ u.avatar }
         >
-          <Text style={{marginBottom: 10}}>
-            Instructions here...
+          <Text style={{marginBottom: 10, fontWeight: 'bold', textAlign: 'center'}}>
+            { u.text.toUpperCase() }
           </Text>
           <Button
             onPress={ this.onPress(u,i) }

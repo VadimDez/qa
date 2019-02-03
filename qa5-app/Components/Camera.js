@@ -40,21 +40,37 @@ export class Camera extends React.Component {
 
   checkPhoto = async () => {
     let photo = null;
-
+    
     if (this.camera) {
-      photo = await this.camera.takePictureAsync();
+      try {
+        this.setState({ takingPicture: true })
+        photo = await this.camera.takePictureAsync();
+      } finally {
+        this.setState({ takingPicture: false });
+      }
+
+
       console.log(photo);
       if (photo) {
-        let res = await this.uploadPhoto(photo.uri);
-        res = await res.json();
+        this.setState({ isUploading: true })
+        let res
+        try {
+          res = await this.uploadPhoto(photo.uri);
+          res = await res.json();
+        } finally {
+          this.setState({ isUploading: false })
+        }
         console.log('============');
         
         console.log(res);
         console.log(res.images[0].classifiers[0].classes);
 
-        if (res && res.images && res.images[0] && res.images[0].classifiers && res.images[0].classifiers[0].classes) {
-          if (res.images[0].classifiers[0].classes[0].score < 60) {
+        if (res && res.images && res.images[0] && res.images[0].classifiers && res.images[0].classifiers[0].classes && res.images[0].classifiers[0].classes[0]) {
+          const cl = res.images[0].classifiers[0].classes[0];
+          if (cl.class === 'positive' && cl.score < 0.70) {
             alert('wrong');
+          } else {
+            alert('correct');
           }
         }
         console.log('============');

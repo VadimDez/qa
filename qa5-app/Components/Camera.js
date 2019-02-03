@@ -10,6 +10,8 @@ import {
 import ExpoGraphics from 'expo-graphics';
 import ExpoTHREE, { AR as ThreeAR, THREE } from 'expo-three';
 import Expo, { setPixelRatio, Camera as Cam, Permissions } from 'expo';
+import { Avatar, Badge, Icon, withBadge, ListItem, Overlay } from 'react-native-elements'
+
 
 import TextMesh from './TextMesh';
 
@@ -19,7 +21,7 @@ export class Camera extends React.Component {
     hasCameraPermission: false,
     type: Cam.Constants.Type.back,
   };
- 
+
   componentDidMount() {
     // Turn off extra warnings
     THREE.suppressExpoWarnings(true)
@@ -34,7 +36,7 @@ export class Camera extends React.Component {
       this.setState({ hasCameraPermission: status === 'granted' });
     });
   }
-  
+
   onPress() {
   }
 
@@ -48,7 +50,7 @@ export class Camera extends React.Component {
         let res = await this.uploadPhoto(photo.uri);
         res = await res.json();
         console.log('============');
-        
+
         console.log(res);
         console.log(res.images[0].classifiers[0].classes);
 
@@ -82,7 +84,7 @@ export class Camera extends React.Component {
         Authorization: `Basic YXBpa2V5OjlPVmlGY0NxUWVfZ3Zfbk1WUzY1a0ppX180aVRrVFFGQ1pmc3B0dFlyU04t`
       },
     };
-  
+
     return fetch('https://gateway.watsonplatform.net/visual-recognition/api/v3/classify?version=2018-03-19', options);
   }
 
@@ -95,7 +97,7 @@ export class Camera extends React.Component {
           <Text>No access to camera</Text>
         </View>
       );
-    } 
+    }
 
     return (
       <TouchableOpacity style={{ flex: 1 }}>
@@ -108,6 +110,17 @@ export class Camera extends React.Component {
             }}
             onPress={this.checkPhoto}
             >
+            <View>
+              <ListItem
+                leftAvatar={{
+                  title: 'ok',
+                  source: { uri: 'https://randomuser.me/api/portraits/men/41.jpg' },
+                  showEditButton: false,
+                }}
+                title={'title'}
+                subtitle={'subtitle'}
+              />
+            </View>
           </TouchableOpacity>
         </Cam>
       </TouchableOpacity>
@@ -124,18 +137,18 @@ export class Camera extends React.Component {
     });
     // this.renderer.setPixelRatio(pixelRatio);
     // this.renderer.setSize(width, height);
-  
+
     // Initialize scene…
     this.scene = new THREE.Scene();
     this.scene.background = new ThreeAR.BackgroundTexture(this.renderer);
     // Initialize camera…
     this.camera = new ThreeAR.Camera(width, height, 0.01, 1000);
-  
+
     // Initialize lighting…
     var ambientLight = new THREE.AmbientLight(0xaaaaaa);
     this.scene.add(ambientLight);
-  
-  
+
+
     this.mesh = new THREE.Object3D();
     this.shadowFloor = new ThreeAR.ShadowFloor({
       width: 1,
@@ -143,41 +156,41 @@ export class Camera extends React.Component {
       opacity: 0.6,
     });
     this.mesh.add(this.shadowFloor);
-  
+
     // Don't scale up with distance
     this.magneticObject.maintainScale = false;
-  
+
     this.magneticObject.add(this.mesh);
-  
+
     this.scene.add(this.magneticObject);
-  
+
     var geometry = new THREE.BoxGeometry( .25, .25, .25 );
     var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
     var cube = new THREE.Mesh( geometry, material );
     this.scene.add( cube );
 
     // console.log(cube.position.get());
-    
+
     cube.position.set(0, 0, 0);
     cube.position.setX(1);
 
     // this.createText();
    }
-  
+
     onResize = ({ x, y, scale, width, height }) => {
       this.camera.aspect = width / height;
       this.camera.updateProjectionMatrix();
       this.renderer.setPixelRatio(scale);
       this.renderer.setSize(width, height);
     };
-  
+
     onRender = () => {
       // this.magneticObject.update(this.camera, this.screenCenter);
-  
+
       // this.shadowLight.target.position.copy(this.magneticObject.position);
       this.renderer.render(this.scene, this.camera);
     };
-  
+
     createText = () => {
       this.textMesh = new TextMesh();
       this.textMesh.rotation.y = Math.PI;

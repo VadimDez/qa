@@ -36,14 +36,54 @@ export class Camera extends React.Component {
   }
   
   onPress() {
-
   }
 
   checkPhoto = async () => {
+    let photo = null;
+
     if (this.camera) {
-      let photo = await this.camera.takePictureAsync();
+      photo = await this.camera.takePictureAsync();
       console.log(photo);
+      if (photo) {
+        let res = await this.uploadPhoto(photo.uri);
+        res = await res.json();
+        console.log('============');
+        
+        console.log(res);
+        console.log(res.images[0].classifiers[0].classes);
+
+        if (res && res.images && res.images[0] && res.images[0].classifiers && res.images[0].classifiers[0].classes) {
+          if (res.images[0].classifiers[0].classes[0].score < 60) {
+            alert('wrong');
+          }
+        }
+        console.log('============');
+      }
     }
+  }
+
+
+  uploadPhoto(uri) {
+    let formData = new FormData();
+    formData.append('images_file', {
+      uri,
+      name: `photo.jpg`,
+      type: `image/jpg`,
+    });
+    formData.append('threshold', 0.6);
+    formData.append('classifier_ids', "DefaultCustomModel_941899808");
+
+    let options = {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Basic YXBpa2V5OjlPVmlGY0NxUWVfZ3Zfbk1WUzY1a0ppX180aVRrVFFGQ1pmc3B0dFlyU04t`
+      },
+    };
+  
+    return fetch('https://gateway.watsonplatform.net/visual-recognition/api/v3/classify?version=2018-03-19', options);
   }
 
   render() {

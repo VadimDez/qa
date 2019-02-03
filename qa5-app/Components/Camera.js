@@ -4,41 +4,74 @@ import {
   Text,
   View,
   Image,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from 'react-native';
 import ExpoGraphics from 'expo-graphics';
 import ExpoTHREE, { AR as ThreeAR, THREE } from 'expo-three';
-import Expo, { setPixelRatio } from 'expo';
+import Expo, { setPixelRatio, Camera as Cam, Permissions } from 'expo';
 
 import TextMesh from './TextMesh';
 
 export class Camera extends React.Component {
   magneticObject = new ThreeAR.MagneticObject();
+  state = {
+    hasCameraPermission: false,
+    type: Cam.Constants.Type.back,
+  };
  
   componentDidMount() {
     // Turn off extra warnings
     THREE.suppressExpoWarnings(true)
     ThreeAR.suppressWarnings()
+
+    Permissions.getAsync(Permissions.CAMERA).then(async r => {
+      let status = r.status;
+      if (status != 'granted') {
+        const res = await Permissions.askAsync(Permissions.CAMERA);
+        status = res.status;
+      }
+      this.setState({ hasCameraPermission: status === 'granted' });
+    });
   }
   
   onPress() {
 
   }
 
+  checkPhoto = async () => {
+    if (this.camera) {
+      let photo = await this.camera.takePictureAsync();
+      console.log(photo);
+    }
+  }
+
   render() {
+    const { hasCameraPermission } = this.state;
+
+    if (!hasCameraPermission) {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text>No access to camera</Text>
+        </View>
+      );
+    } 
+
     return (
-      <View style={{flex:1}}>
-      <ExpoGraphics.View
-        style={{ flex: 1 }}
-        onContextCreate={this.onContextCreate}
-        onRender={this.onRender}
-        onResize={this.onResize}
-        isArEnabled
-        isArRunningStateEnabled
-        isArCameraStateEnabled
-      />
-      </View>
-    )
+      <TouchableOpacity style={{ flex: 1 }}>
+        <Cam style={{ flex: 1 }} type={this.state.type} ref={ref => { this.camera = ref; }}>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              backgroundColor: 'transparent',
+              flexDirection: 'row',
+            }}
+            onPress={this.checkPhoto}
+            >
+          </TouchableOpacity>
+        </Cam>
+      </TouchableOpacity>
+    );
   }
 
   onContextCreate = async ({gl, scale: pixelRatio, width, height, arSession}) => {

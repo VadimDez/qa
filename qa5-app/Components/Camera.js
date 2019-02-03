@@ -114,7 +114,7 @@ export class Camera extends React.Component {
         </View>
       );
     }
-
+    
     return (
       <TouchableOpacity style={{ flex: 1 }}>
         <Cam style={{ flex: 1 }} type={this.state.type} ref={ref => { this.camera = ref; }}>

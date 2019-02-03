@@ -21,6 +21,7 @@ export class Camera extends React.Component {
   state = {
     hasCameraPermission: false,
     type: Cam.Constants.Type.back,
+    hasFailure: null
   };
 
   componentDidMount() {
@@ -45,23 +46,34 @@ export class Camera extends React.Component {
     let photo = null;
 
     if (this.camera) {
-      photo = await this.camera.takePictureAsync();
-      console.log(photo);
-      if (photo) {
-        let res = await this.uploadPhoto(photo.uri);
-        res = await res.json();
-        console.log('============');
+      try {
+        this.setState({ isUploading: true })
 
-        console.log(res);
-        console.log(res.images[0].classifiers[0].classes);
+        photo = await this.camera.takePictureAsync();
+        console.log(photo);
 
-        if (res && res.images && res.images[0] && res.images[0].classifiers && res.images[0].classifiers[0].classes) {
-          if (res.images[0].classifiers[0].classes[0].score < 60) {
-            this.setState( { 'scoreRes': res.images[0].classifiers[0].classes[0].score } );
-            alert('wrong');
+        if (photo) {
+          let res = await this.uploadPhoto(photo.uri);
+          res = await res.json();
+          console.log('============');
+          console.log(res);
+          console.log('============');
+
+          if (res && res.images && res.images[0] && res.images[0].classifiers && res.images[0].classifiers[0].classes) {
+            
+            if (res.images[0].classifiers[0].classes[0] && res.images[0].classifiers[0].classes[0].score > 0.7) {
+              this.setState({ hasFailure: false });
+            } else {
+              this.setState({ hasFailure: true });
+            }
+          } else {
+            this.setState({ hasFailure: true });
           }
         }
-        console.log('============');
+      }catch (e) {
+        this.setState({ hasFailure: null });
+      } finally {
+        this.setState({ isUploading: false })
       }
     }
   }
@@ -101,6 +113,30 @@ export class Camera extends React.Component {
       );
     }
     
+    let flag = null;
+console.log(this.state.hasFailure);
+
+    if (this.state.isUploading && this.state.hasFailure === null) {
+      flag = (<View style={{ position: 'absolute', bottom: 150 }}>
+      <ListItem
+        title={ 'Analyzing' }
+      />
+    </View>);
+    }
+
+    if (this.state.hasFailure != null) {
+    flag = (<View style={{ position: 'absolute', bottom: 150 }}>
+      <ListItem
+        leftAvatar={{
+          title: 'ok',
+          source: { uri: this.state.hasFailure ? errorIcon : successIcon },
+          showEditButton: false,
+        }}
+        title={ this.state.hasFailure ? 'Failed' : 'Passed' }
+      />
+    </View>);
+    }
+
     return (
       <TouchableOpacity style={{ flex: 1 }}>
         <Cam style={{ flex: 1 }} type={this.state.type} ref={ref => { this.camera = ref; }}>
@@ -112,16 +148,7 @@ export class Camera extends React.Component {
             }}
             onPress={this.checkPhoto}
             >
-            <View style={{ position: 'absolute', bottom: 150 }}>
-              <ListItem
-                leftAvatar={{
-                  title: 'ok',
-                  source: { uri: ( this.state.scoreRes > .6 )? successIcon : errorIcon },
-                  showEditButton: false,
-                }}
-                title={ ( this.state.scoreRes > .6 ) ? 'Passed' : 'Failed' }
-              />
-            </View>
+            { flag }
           </TouchableOpacity>
         </Cam>
       </TouchableOpacity>

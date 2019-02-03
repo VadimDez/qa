@@ -76,7 +76,7 @@ export class Conetnt extends React.Component {
         )
       }
 
-      const title = u.checked ? 'UNCHECK' : 'CHECK NOW';
+      const title = u.checked ? 'Unverify' : 'Verify';
       let cardStyles = styles.card;
 
       if (u.checked) {

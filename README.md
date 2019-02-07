@@ -1,3 +1,3 @@
 # qa5
 
-Hackathon project for Per & Max Bögl @ Be5 Hackdays
+Hackathon project for Peri & Max Bögl @ Be5 Hackdays

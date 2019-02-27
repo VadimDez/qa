@@ -13,3 +13,8 @@ Hackathon project for Peri & Max Bögl @ [Be5 Hackdays](https://ideas-be5-hackda
 
 * React-Native
 * [IBM Cloud - Watson Visual Recognition](https://www.ibm.com/watson/services/visual-recognition/)
+
+
+## License
+
+[MIT](https://tldrlegal.com/license/mit-license) © [Vadym Yatsyuk](https://github.com/vadimdez)
